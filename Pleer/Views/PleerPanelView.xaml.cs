@@ -23,6 +23,7 @@ namespace Pleer.Views
         public PleerPanelView()
         {
             InitializeComponent();
+
         }
     }
 }
