@@ -116,7 +116,25 @@ namespace Pleer.Models
 
         public override void Play(int index)
         {
-            if (Playlist.TrackList.Count != 0)
+            if (_isMixed)
+            {
+                if (Playlist.MixedTrackList.Count != 0)
+                {
+                    if (PlayBackState() == 1) // ручное переключение трека (во время проигрывания другого)
+                    {
+                        _currentSong = Playlist.MixedTrackList.IndexOf(Playlist.TrackList[index]);
+
+                        Play(Playlist.TrackList[index]);
+                        notifyPlaylistView(index);
+                    }
+                    else // автоматическое переключение трека (при окончании предыдущего)
+                    {
+                        Play(Playlist.MixedTrackList[index]);
+                        notifyPlaylistView(index);
+                    }
+                }
+            }
+            else if (Playlist.TrackList.Count != 0)
                 Play(Playlist.TrackList[index]);
         }
 
