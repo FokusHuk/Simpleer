@@ -1,0 +1,285 @@
+﻿<Window x:Class="Pleer.Views.PleerView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Pleer.Views"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:dd="urn:gong-wpf-dragdrop"
+        xmlns:cal="http://www.caliburnproject.org"
+        mc:Ignorable="d"
+        Title="PleerView" Height="450" Width="850" MinWidth="850" MinHeight="430" KeyboardNavigation.TabNavigation="None" x:Name="MainWindow">
+    <Window.Resources>
+        <Style x:Key="TransparentStyle" TargetType="{x:Type Button}">
+            <Style.Setters>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="Transparent">
+                                <ContentPresenter HorizontalAlignment="Left" Margin="15,0,0,0"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Control.FontSize" Value="14"/>
+                <Setter Property="Control.FontFamily" Value="Segoe ui" />
+                <Setter Property="Control.FontWeight" Value="Medium" />
+                <Setter Property="Control.Background" Value="DarkGray" />
+            </Style.Setters>
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="Mouse.MouseEnter">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Duration="0:0:0.2"
+                                                 Storyboard.TargetProperty="FontSize"
+                                                 To="18">
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Mouse.MouseLeave">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Duration="0:0:0.2"
+                                                 Storyboard.TargetProperty="FontSize"
+                                                 To="14">
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Click">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Duration="0:0:0.2"
+                                                 Storyboard.TargetProperty="FontSize"
+                                                 To="20" AutoReverse="True"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Border BorderThickness="2,2,2,2" BorderBrush="Black">
+        <Grid Background="LightGray">
+            <!--основной грид-->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.5*" MinWidth="130" x:Name="fst_col" />
+                <ColumnDefinition Width="9*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.5*" />
+                <RowDefinition Height="3.5*"/>
+                <RowDefinition Height="0.7*" MinHeight="75" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Column="1" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20">  All Files</TextBlock>
+                <TextBox Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,20,0">Search</TextBox>
+            </Grid>
+
+            <!--Центральная панель отобрашения песен пока не работает, но вот она-->
+            <Border Grid.Column="1" Grid.Row="1" BorderThickness="0,2,0,2" BorderBrush="Black" Background="LightGray">
+                <ContentControl x:Name="CentralPanel"/>
+            </Border>
+
+            
+            <!--грид левой панели-->
+            <Border Grid.RowSpan="3" BorderThickness="0,0,2,0" BorderBrush="Black" >
+
+                <Grid Background="DarkGray" MinWidth="130" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="4.5*"/>
+                        <RowDefinition Height="6*"/>
+                        <RowDefinition Height="4.5*"/>
+                        <RowDefinition Height="8*"  MinHeight="130"/>
+
+                    </Grid.RowDefinitions>
+                    <Viewbox>
+                        <Grid Grid.Row="0" Panel.ZIndex="1" MinWidth="130" MinHeight="82">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <TextBlock  Foreground="Black" VerticalAlignment="Center" Margin="10,0,0,0">Actions</TextBlock>
+                            <Button x:Name="AddTrack" Grid.Row="1" Style="{StaticResource TransparentStyle}"  HorizontalAlignment="Stretch" VerticalAlignment="Top" >
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Plus" VerticalAlignment="Center" Margin="0,0,5,0" >
+                                    </materialDesign:PackIcon>
+                                    <TextBlock>Add Track</TextBlock>
+                                </StackPanel>
+                            </Button>
+                            <Button x:Name="UpdateTrack" Style="{StaticResource TransparentStyle}" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Top" >
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Update" VerticalAlignment="Center" Margin="0,0,5,0" >
+                                    </materialDesign:PackIcon>
+                                    <TextBlock>Update</TextBlock>
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+                    </Viewbox>
+                    <Viewbox Grid.Row="1">
+                        <Grid Panel.ZIndex="1" MinWidth="130" MinHeight="108">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <TextBlock  Foreground="Black" VerticalAlignment="Center" Margin="10,0,0,0">Music</TextBlock>
+                            <Button x:Name="AllMusic" Grid.Row="1" Style="{StaticResource TransparentStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Top" >
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Circle" VerticalAlignment="Center" Margin="0,0,5,0" >
+                                    </materialDesign:PackIcon>
+                                    <TextBlock>All Music</TextBlock>
+                                </StackPanel>
+                            </Button>
+                            <Button x:Name="Playlists" Grid.Row="2" Style="{StaticResource TransparentStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Top" >
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Circle" VerticalAlignment="Center" Margin="0,0,5,0" >
+                                    </materialDesign:PackIcon>
+                                    <TextBlock>Playlists</TextBlock>
+                                </StackPanel>
+                            </Button>
+                            <Button x:Name="Popular" Grid.Row="3" Style="{StaticResource TransparentStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Top" >
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Circle" VerticalAlignment="Center" Margin="0,0,5,0" >
+                                    </materialDesign:PackIcon>
+                                    <TextBlock>Popular</TextBlock>
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+                    </Viewbox>
+                    <Viewbox Grid.Row="2">
+                        <Grid Panel.ZIndex="1" MinWidth="130" MinHeight="81">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <TextBlock  Foreground="Black" VerticalAlignment="Center" Margin="10,0,0,0">View</TextBlock>
+                            <Button x:Name="Stats" Grid.Row="1" Style="{StaticResource TransparentStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="MathCompassVariant" VerticalAlignment="Center" Margin="0,0,5,0" >
+                                    </materialDesign:PackIcon>
+                                    <TextBlock>Stats</TextBlock>
+                                </StackPanel>
+                            </Button>
+                            <Button x:Name="Settings" Grid.Row="2" Style="{StaticResource TransparentStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Settings" VerticalAlignment="Center" Margin="0,0,5,0" >
+                                    </materialDesign:PackIcon>
+                                    <TextBlock>Settings</TextBlock>
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+                    </Viewbox>
+                    <Border Grid.Row="3" BorderThickness="0,2,0,0" BorderBrush="Black" >
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="6*"/>
+                                <RowDefinition Height="2.5*"/>
+                            </Grid.RowDefinitions>
+                            <Image x:Name="TrackImage" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5,15,5,5" Source="/Assets/p1.jpg"/>
+                            <Rectangle x:Name="q" Panel.ZIndex="-1" Grid.Row="0" HorizontalAlignment="Stretch" Width="{Binding ElementName=q, Path=ActualHeight}" VerticalAlignment="Stretch" Margin="3,13,3,3" Fill="Black" RadiusX="1" RadiusY="1"/>
+                            <TextBlock x:Name="TrackName" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" TextWrapping="Wrap" >
+                Альбом - Исполнитель
+                            </TextBlock>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+            <!--конец грида левой панели-->
+
+            
+            <!-- вот тут была нижняя панель -->
+            <ContentControl Grid.Column="1" Grid.Row="2" x:Name="BottomPanel"/>
+            <!--    <local:PleerPanelView Grid.Column="1" Grid.Row="2"/> -->
+            
+
+
+
+            <!--конец грида нижней панели-->
+        </Grid>
+    </Border>
+    <!--конец основного грида-->
+
+</Window>
+
+<!--
+    song_list_lw - отвечает за отобрадение песен, пока пробный вариант
+        зайди в plaeerview.xaml.cs, там в main показано, как пока выводить песни
+    кнопки:
+    to_top_btn - закинуть песню вверх
+    repeat_btn - повтор
+    mixed_btn - в случайном порядке
+    skip_previous_btn - предыдущая песня
+    pause_btn - пауза
+    skip_next_btn - слудующая песня
+    lyrics_btn - открывает текст песни
+    mute_btn - убрать звук
+    
+    volume_sl - слайдер громкости
+    time_line_sl - линия, отображающая временной промежуток песни
+    
+    time_now_tb - блок текста, отображает, текущее время воспроизведения
+    time_all_tb - блок текста, отображает, длительность/обратный отсчет по времени песни
+    
+    -->
+    
+    
+    <!--  
+        <ListView  x:Name="SongList" SelectedItem="{Binding SelectedItem}" SelectedIndex="{Binding SelectedIndex}" 
+                dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True" cal:Message.Attach="[Event MouseLeftButtonUp] = [Action PlayMethod]"  >
+    <dd:DragDrop.DragAdornerTemplate>
+        <DataTemplate>
+            <Border BorderBrush="DarkGray" BorderThickness="1"  >
+                <Border.Background>
+                    <SolidColorBrush Color="Gray" Opacity="0.7"/>
+                </Border.Background>
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Height="50" >
+                    <materialDesign:PackIcon Kind="Drag" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                    <TextBlock x:Name="SongListIndexes" VerticalAlignment="Center"/>
+                    <Ellipse Margin="20,0" MinHeight="30" MinWidth="30" VerticalAlignment="Center">
+                        <Ellipse.Effect>
+                            <DropShadowEffect BlurRadius="10" ShadowDepth="0.08"/>
+                        </Ellipse.Effect>
+                        <Ellipse.Fill>
+                            <ImageBrush ImageSource="{Binding TrackImage}">
+                            </ImageBrush>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="10,0,10,0"/>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+    </dd:DragDrop.DragAdornerTemplate>
+
+    <ListView.ItemTemplate>
+        <DataTemplate>
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Height="50" >
+                <TextBlock x:Name="SongListIndexes" VerticalAlignment="Center"/>
+                <Ellipse Margin="20,0" MinHeight="30" MinWidth="30" VerticalAlignment="Center">
+                    <Ellipse.Effect>
+                        <DropShadowEffect BlurRadius="10" ShadowDepth="0.08"/>
+                    </Ellipse.Effect>
+                    <Ellipse.Fill>
+                        <ImageBrush ImageSource="{Binding TrackImage}">
+                        </ImageBrush>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="10,0,10,0"/>
+            </StackPanel>
+        </DataTemplate>
+    </ListView.ItemTemplate>
+    </ListView> -->
