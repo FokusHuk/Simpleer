@@ -7,12 +7,13 @@ using System.Windows.Media.Imaging;
 
 namespace Pleer.Models
 {
-    public struct Track
+    public class Track
     {
-        public string path;
-        public string format;
-        public string name;
-        public BitmapImage image;
+        public int Id { get; private set; }
+        public string path { get; set; }
+        public string format { get; set; }
+        public string name { get; set; }
+        public BitmapImage image { get; set; }
 
         public Track(string name, string path, string format, BitmapImage image)
         {
@@ -20,6 +21,14 @@ namespace Pleer.Models
             this.path = path;
             this.format = format;
             this.image = image;
+        }
+
+        public Track(string name, string path, string format)
+        {
+            this.name = name;
+            this.path = path;
+            this.format = format;
+            this.image = null;
         }
     }
 }
