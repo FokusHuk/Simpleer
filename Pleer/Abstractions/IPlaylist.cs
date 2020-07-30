@@ -20,5 +20,6 @@ namespace Pleer.Abstractions
         string GetFullFileName(string name);
         ViewTrack AddTrack(string file);
         List<ViewTrack> AddTrackList(string[] files);
+        List<ViewTrack> AddTrackList(List<Track> tracks);
     }
 }

@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 using Pleer.Abstractions;
+using Pleer.Database;
 using Pleer.Properties;
 
 namespace Pleer.Models
@@ -101,6 +102,7 @@ namespace Pleer.Models
             files = files.Reverse().ToArray<string>();
 
             List<ViewTrack> viewTracks = new List<ViewTrack>();
+            List<Track> newTracks = new List<Track>();
 
             string fullTrackName = "";
             string trackName = "";
@@ -123,6 +125,31 @@ namespace Pleer.Models
                     TrackList.Insert(0, trackName);
 
                     viewTracks.Add(new ViewTrack(trackName, image));
+
+                    newTracks.Insert(0, newTrack);
+                }
+            }
+
+            DbManager.Instance().SaveTracks(newTracks);
+
+            return viewTracks;
+        }
+
+        public List<ViewTrack> AddTrackList(List<Track> tracks)
+        {
+            List<ViewTrack> viewTracks = new List<ViewTrack>();
+
+            foreach (var track in tracks)
+            {
+                if (!IsTrackExist(track.name))
+                {
+                    BitmapImage image = getTrackImage(track.path + track.name + track.format);
+                    track.image = image;
+
+                    TrackLibrary.Add(track.name, track);
+                    TrackList.Insert(0, track.name);
+
+                    viewTracks.Add(new ViewTrack(track.name, image));
                 }
             }
 
@@ -145,6 +172,8 @@ namespace Pleer.Models
 
                 TrackLibrary.Add(trackName, newTrack);
                 TrackList.Insert(0, trackName);
+
+                DbManager.Instance().SaveTrack(newTrack);
 
                 return new ViewTrack(trackName, image);
             }

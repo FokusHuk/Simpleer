@@ -43,7 +43,7 @@ namespace Pleer.ViewModels
         }
 
         
-        public void AddTrack()
+        public void AddTrackFromFolder()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Multiselect = true;
@@ -72,6 +72,14 @@ namespace Pleer.ViewModels
                         TrackList.Insert(0, track);
                 }
             }
+        }
+
+        public void AddTracksFromDb(List<Track> tracks)
+        {
+            List<ViewTrack> newTracks = playlist.AddTrackList(tracks);
+
+            foreach (var track in newTracks)
+                TrackList.Insert(0, track);
         }
 
 

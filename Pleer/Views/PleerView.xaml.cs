@@ -25,8 +25,6 @@ namespace Pleer.Views
         {
             InitializeComponent();
         }
-
-        
     }
 }
 

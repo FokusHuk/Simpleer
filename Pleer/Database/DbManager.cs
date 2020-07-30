@@ -4,6 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
 using Pleer.Models;
+using Pleer.Abstractions;
+using System.Collections.Generic;
 
 namespace Pleer.Database
 {
@@ -40,6 +42,39 @@ namespace Pleer.Database
 
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
             Options = optionsBuilder.UseSqlServer(connectionString).Options;
+        }
+
+        public void LoadData(IPlaylistViewModel musicPanel)
+        {
+            List<Track> tracks = null;
+
+            using (ApplicationContext db = new ApplicationContext(Options))
+            {
+                tracks = db.AllTracks.ToList();
+            }
+
+            musicPanel.AddTracksFromDb(tracks);
+        }
+
+        public void SaveTracks(List<Track> newTracks)
+        {
+            using (ApplicationContext db = new ApplicationContext(Options))
+            {
+                for (int i = newTracks.Count - 1; i >= 0; i--)
+                {
+                    db.AllTracks.Add(newTracks[i]);
+                }
+                db.SaveChanges();
+            }
+        }
+
+        public void SaveTrack(Track newTrack)
+        {
+            using (ApplicationContext db = new ApplicationContext(Options))
+            {
+                db.AllTracks.Add(newTrack);
+                db.SaveChanges();
+            }
         }
     }
 }

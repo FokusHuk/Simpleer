@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Timers;
 using MaterialDesignThemes.Wpf;
 using Pleer.Abstractions;
+using Pleer.Database;
 
 namespace Pleer.ViewModels
 {
@@ -79,6 +80,10 @@ namespace Pleer.ViewModels
             Items.Add(BottomPanel);
 
             Playback.Instance().notifyTrackState += NotifyTrackState;
+
+            DbManager db = DbManager.Instance();
+            db.Init();
+            db.LoadData(allMusicViewModel);
         }
 
         public void Settings()
@@ -112,7 +117,7 @@ namespace Pleer.ViewModels
         {
             if (musicPanel != null)
             {
-                musicPanel.AddTrack();
+                musicPanel.AddTrackFromFolder();
             }
         }
 

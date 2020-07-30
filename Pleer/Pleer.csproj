@@ -337,7 +337,7 @@
   <Import Project="..\packages\Microsoft.Data.SqlClient.SNI.1.0.19235.1\build\net46\Microsoft.Data.SqlClient.SNI.targets" Condition="Exists('..\packages\Microsoft.Data.SqlClient.SNI.1.0.19235.1\build\net46\Microsoft.Data.SqlClient.SNI.targets')" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties Database_4appsettings_1json__JSONSchema="" />
+      <UserProperties appsettings_1json__JSONSchema="" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
