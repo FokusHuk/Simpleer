@@ -6,7 +6,7 @@ using System.IO;
 using Pleer.Models;
 using Pleer.Abstractions;
 using System.Collections.Generic;
-
+// Huinya tvoy manager
 namespace Pleer.Database
 {
     public class DbManager
